@@ -18,29 +18,31 @@ export const PAGINATION_TEMPLATE = `
             </div>
         </div>
         <div class=" pagination-pages">
-            <button [disabled]="dataTable.offset <= 0" (click)="pageFirst()" class="btn btn-default pagination-firstpage">&laquo;</button>
-            <button [disabled]="dataTable.offset <= 0" (click)="pageBack()" class="btn btn-default pagination-prevpage">&lsaquo;</button>
-            <div class="pagination-page" *ngIf="show_input">
-                <div class="input-group">
-                    <input #pageInput type="number" class="form-control" min="1" step="1" max="{{maxPage}}"
-                           [ngModel]="page" (blur)="page = pageInput.value"
-                           (keyup.enter)="page = pageInput.value" (keyup.esc)="pageInput.value = page"/>
-                    <div class="input-group-addon">
-                        <span>/</span>
-                        <span [textContent]="dataTable.lastPage"></span>
-                    </div>
-                </div>
+            <div class=" m10 offset-m2 s12">
+                <ul class="pagination pagi-align">
+                    <li class="waves-effect"  [ngClass]="{disabled: dataTable.offset <= 0}">
+                        <a (click)="!(dataTable.offset <= 0) && pageFirst()"><i class="material-icons">first_page</i></a>
+                    </li>
+                    <li class="waves-effect"  [ngClass]="{disabled: dataTable.offset <= 0}">
+                        <a (click)="!(dataTable.offset <= 0) && pageBack()" ><i class="material-icons">chevron_left</i></a>
+                    </li>
+                    <li class="waves-effect" *ngIf="hasPrevious(maxPage,page)">...</li>
+    
+                    <li class="waves-effect" *ngFor="let i of createPageRange(maxPage,page)" [ngClass]="{active: page == i}">
+                        <a (click)="page = i">{{i}}</a>
+                    </li>
+                    
+                    <li class="waves-effect" *ngIf="hasNext(maxPage,page)">...</li>
+                    <li class="waves-effect" [ngClass]="{disabled: (dataTable.offset + dataTable.limit) >= dataTable.itemCount}">
+                        <a (click)="!((dataTable.offset + dataTable.limit) >= dataTable.itemCount) && pageForward()" >
+                            <i class="material-icons">chevron_right</i>
+                        </a>
+                    </li>
+                    <li class="waves-effect"   [ngClass]="{disabled: (dataTable.offset + dataTable.limit) >= dataTable.itemCount}">
+                        <a (click)="!((dataTable.offset + dataTable.limit) >= dataTable.itemCount) && pageLast()"><i class="material-icons">last_page</i></a>
+                    </li>
+                </ul>
             </div>
-            <button *ngIf="hasPrevious(maxPage,page)" [disabled]="true" (click)="false" class="btn btn-default hasPrevious">...</button>
-            <div class="pagination-page" *ngIf="show_numbers">
-                <button *ngFor="let i of createPageRange(maxPage,page)"
-                    [disabled]="i == page"
-                    (click)="page = i"
-                    class="btn btn-default">{{ i }}</button>
-            </div>
-            <button *ngIf="hasNext(maxPage,page)" [disabled]="true" (click)="false" class="btn btn-default hasNext">...</button>
-            <button [disabled]="(dataTable.offset + dataTable.limit) >= dataTable.itemCount" (click)="pageForward()" class="btn btn-default pagination-nextpage">&rsaquo;</button>
-            <button [disabled]="(dataTable.offset + dataTable.limit) >= dataTable.itemCount" (click)="pageLast()" class="btn btn-default pagination-lastpage">&raquo;</button>
         </div>
     </div>
 </div>
