@@ -26,13 +26,13 @@ export const PAGINATION_TEMPLATE = `
                     <li class="waves-effect" [ngClass]="{disabled: dataTable.offset <= 0}">
                         <a (click)="!(dataTable.offset <= 0) && pageBack()" ><i class="material-icons">chevron_left</i></a>
                     </li>
-                    <li class="waves-effect pagination-ellipsis" *ngIf="hasPrevious(maxPage,page)">...</li>
+                    <li class="pagination-ellipsis" *ngIf="hasPrevious(maxPage,page)">...</li>
     
                     <li class="waves-effect" *ngFor="let i of createPageRange(maxPage,page)" [ngClass]="{active: page == i}">
                         <a (click)="page = i">{{i}}</a>
                     </li>
                     
-                    <li class="waves-effect pagination-ellipsis" *ngIf="hasNext(maxPage,page)">...</li>
+                    <li class="pagination-ellipsis" *ngIf="hasNext(maxPage,page)">...</li>
                     <li class="waves-effect" [ngClass]="{disabled: (dataTable.offset + dataTable.limit) >= dataTable.itemCount}">
                         <a (click)="!((dataTable.offset + dataTable.limit) >= dataTable.itemCount) && pageForward()" >
                             <i class="material-icons">chevron_right</i>
