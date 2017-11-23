@@ -49,24 +49,24 @@ export class DataTablePagination {
     }
 
     get page() {
-        return this.dataTable.page;
+        return ( this.dataTable.page ? this.dataTable.page : ( ( this.dataTable.offset / this.dataTable.limit ) + 1) );
     }
 
     set page(value) {
         this.dataTable.page = Number(<any>value);
     }
 
-    hasPrevious(number, page) {
+    hasPrevious(number, currentPage) {
         const difference = this.getDifference();
-        if ((page - difference) > 1) {
+        if ((currentPage - difference) > 1) {
             return true;
         }
         return false;
     }
 
-    hasNext(number, page) {
+    hasNext(number, currentPage) {
         const difference = this.getDifference();
-        if ((number - page) > difference) {
+        if ((number - currentPage) > difference) {
             return true;
         }
         return false;
@@ -77,17 +77,17 @@ export class DataTablePagination {
         return difference;
     }
 
-    createPageRange(number, page): any[] {
+    createPageRange(number, currentPage): any[] {
         let items: number[] = [];
         if (number > 1) {
             const difference = this.getDifference();
             let maxPage = number;
             let minPage = 1;
-            if ((number - page) >= difference) {
-                maxPage = page + difference;
+            if ((number - currentPage) >= difference) {
+                maxPage = currentPage + difference;
             }
-            if ((page - difference) >= 1) {
-                minPage = page - difference;
+            if ((currentPage - difference) >= 1) {
+                minPage = currentPage - difference;
             }
             for (let i = minPage; i <= maxPage; i++) {
                 items.push(i);
