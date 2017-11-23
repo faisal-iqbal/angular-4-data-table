@@ -49,7 +49,12 @@ export class DataTablePagination {
     }
 
     get page() {
-        return ( this.dataTable.page ? this.dataTable.page : ( ( this.dataTable.offset / this.dataTable.limit ) + 1) );
+        const offset = this.dataTable.offset;
+        let currentPage = 1;
+        if (offset) {
+          currentPage = ( (+this.dataTable.offset) / this.dataTable.limit ) + 1;
+        }
+        return currentPage;
     }
 
     set page(value) {
